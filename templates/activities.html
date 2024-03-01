@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activities List</title>
+    <!-- Include the CSS and JavaScript files for the frontend framework of your choice -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <h1 class="text-4xl font-bold text-center mt-8">Activities List</h1>
+    <ul id="activities-list" class="mt-8">
+        <!-- Use a loop to iterate over the 'lis' list and generate list items -->
+        {% for item in lis %}
+            <li class="bg-white shadow-md rounded-lg p-4 mb-4">
+                <h2 class="text-xl font-bold">{{ item.category }}</h2>
+                <h3 class="text-lg font-semibold">{{ item.name }}</h3>
+                <p class="text-gray-600">{{ item.description }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div id="new-activity-form" class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-md">
+        <!-- Create a form to add a new item to the list -->
+        <form action="/add_activity" method="POST" class="flex items-center">
+            <input type="text" name="category" placeholder="Category" required class="px-4 py-2 border border-gray-300 rounded-md mr-2">
+            <input type="text" name="name" placeholder="Name" required class="px-4 py-2 border border-gray-300 rounded-md mr-2">
+            <textarea name="description" placeholder="Description" required class="px-4 py-2 border border-gray-300 rounded-md mr-2"></textarea>
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Add Activity</button>
+        </form>
+    </div>
+
+    <!-- Include the JavaScript file to handle form submission and interaction with app.py -->
+    <script src="app.js"></script>
+</body>
+</html>
