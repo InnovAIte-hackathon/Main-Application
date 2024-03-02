@@ -4,18 +4,6 @@
     <title>Signup</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Add your custom CSS styles here */
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    </style>
-    <style>
-        /* Add your custom CSS styles here */
         .container {
             max-width: 400px;
             margin: 0 auto;
@@ -25,27 +13,23 @@
             border-radius: 5px;
         }
 
-        /* Add hover effect to input fields */
         input:hover {
             border-color: #4F46E5;
         }
 
-        /* Add hover effect to submit button */
         input[type="submit"]:hover {
             background-color: #34D399;
         }
 
-        /* Add hover effect to login link */
         .text-blue-500:hover {
             text-decoration: underline;
         }
     </style>
-    <script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h1 class="text-center text-3xl font-bold mb-4">Login</h1>
-        <form action="/login" method="POST" hx-post="/login" hx-target=".container" hx-swap="outerHTML" hx-animate="true">
+        <form action="/login" method="POST">
             <div class="mb-4">
                 <label for="username" class="block font-bold">Username:</label>
                 <input type="text" id="username" name="username" required class="w-full px-4 py-2 border border-gray-300 rounded">

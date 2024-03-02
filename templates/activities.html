@@ -2,33 +2,86 @@
 <html>
 <head>
     <title>Activities List</title>
-    <!-- Include the CSS and JavaScript files for the frontend framework of your choice -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <h1 class="text-4xl font-bold text-center mt-8">Activities List</h1>
+    
+    <div class="flex justify-center mt-4">
+        <label for="activity-filter" class="mr-2">Filter by Activity:</label>
+        <select id="activity-filter" class="px-2 py-1 border border-gray-300 rounded-md">
+            <option value="all">All</option>
+            <option value="Sports">Sports</option>
+            <option value="Academics">Academics</option>
+            <option value="Philanthropic">Philanthropic</option>
+        </select>
+    </div>
+    
     <ul id="activities-list" class="mt-8">
-        <!-- Use a loop to iterate over the 'lis' list and generate list items -->
         {% for item in lis %}
-            <li class="bg-white shadow-md rounded-lg p-4 mb-4">
-                <h2 class="text-xl font-bold">{{ item.category }}</h2>
-                <h3 class="text-lg font-semibold">{{ item.name }}</h3>
-                <p class="text-gray-600">{{ item.description }}</p>
+            <li class="bg-white shadow-md rounded-lg p-4 mb-4 activity-item">
+                <h2 class="text-xl font-bold">{{ item[0] }}</h2>
+                <h3 class="text-lg font-semibold">{{ item[1] }}</h3>
+                <p class="text-gray-600">{{ item[2] }}</p>
+                <a href="/delete-activity/{{ item[3] }}" class="text-red-500">Delete</a>
             </li>
         {% endfor %}
+        {% if not lis %}
+            <li class="bg-white shadow-md rounded-lg p-4 mb-4 activity-item">
+                <h2 class="text-xl font-bold">No activities found</h2>
+            </li>
+        {% endif %}
     </ul>
-
+    
+    <button id="new-activity-btn" class="fixed bottom-0 right-0 m-4 p-4 bg-blue-500 text-white rounded-full shadow-md">+</button>
+    
     <div id="new-activity-form" class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-md">
-        <!-- Create a form to add a new item to the list -->
-        <form action="/add_activity" method="POST" class="flex items-center">
-            <input type="text" name="category" placeholder="Category" required class="px-4 py-2 border border-gray-300 rounded-md mr-2">
-            <input type="text" name="name" placeholder="Name" required class="px-4 py-2 border border-gray-300 rounded-md mr-2">
-            <textarea name="description" placeholder="Description" required class="px-4 py-2 border border-gray-300 rounded-md mr-2"></textarea>
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Add Activity</button>
+        <form action="/activities" method="POST" class="flex flex-col">
+            <div class="flex flex-wrap mb-2">
+                <input type="text" name="category" placeholder="Category" required class="flex-1 px-4 py-2 border border-gray-300 rounded-md mr-2">
+                <input type="text" name="name" placeholder="Name" required class="flex-1 px-4 py-2 border border-gray-300 rounded-md mr-2">
+            </div>
+            <textarea name="description" placeholder="Description" required class="flex-1 px-4 py-2 border border-gray-300 rounded-md mb-2"></textarea>
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md" style="margin-right: 50px;">Add Activity</button>
+            <button id="new-activity-btn2" style="color: white" class="fixed bottom-0 right-0 m-4 p-4 bg-blue-500 text-white rounded-full shadow-md">-</button>
         </form>
     </div>
 
-    <!-- Include the JavaScript file to handle form submission and interaction with app.py -->
-    <script src="app.js"></script>
+    <script>
+        const btn1 = document.getElementById('new-activity-btn');
+        const btn2 = document.getElementById('new-activity-btn2');
+        const form1 = document.getElementById('new-activity-form');
+        const activityFilter = document.getElementById('activity-filter');
+        const activityItems = document.getElementsByClassName('activity-item');
+        
+        form1.setAttribute('hidden', true);
+        btn2.setAttribute('hidden', true);
+        
+        btn1.addEventListener('click', () => {
+            form1.toggleAttribute('hidden');
+            btn1.toggleAttribute('hidden');
+            btn2.toggleAttribute('hidden');
+        });
+        
+        btn2.addEventListener('click', () => {
+            form1.toggleAttribute('hidden');
+            btn1.toggleAttribute('hidden');
+            btn2.toggleAttribute('hidden');
+        });
+        
+        activityFilter.addEventListener('change', () => {
+            const selectedActivity = activityFilter.value;
+            
+            for (let i = 0; i < activityItems.length; i++) {
+                const activityItem = activityItems[i];
+                
+                if (selectedActivity === 'all' || activityItem.innerText.includes(selectedActivity)) {
+                    activityItem.style.display = 'block';
+                } else {
+                    activityItem.style.display = 'none';
+                }
+            }
+        });
+    </script>
 </body>
 </html>
