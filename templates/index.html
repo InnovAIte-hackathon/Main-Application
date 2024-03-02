@@ -3,37 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dummy Landing Page</title>
+    <title>The Extra Mile - University Application Organizer</title>
+    <!-- BEGIN: Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <!-- END: Tailwind CSS CDN -->
     <style>
-        /* Add your custom CSS styles here */
+        /* Custom styles for the longer page */
+        .animated-content {
+            animation: slide-up 1s ease-in-out;
+        }
+
+        @keyframes slide-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Sticky footer */
+        html, body {
+            height: 100%;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
         }
-        
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        
-        p {
-            text-align: center;
-            color: #666;
+
+        main {
+            flex: 1;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Dummy Landing Page</h1>
-        <p>This is just a placeholder page.</p>
-    </div>
+    <header>
+        <nav class="bg-blue-500 p-4">
+            <div class="container mx-auto">
+                <div class="flex justify-between">
+                    <a href="/" class="text-white text-lg font-bold">Home</a>
+                    <div>
+                        <a href="/recommend-activity" class="text-white text-lg mx-2">AI Suggestions</a>
+                        <a href="/recommend-schools" class="text-white text-lg mx-2">AI Schools</a>
+                        <a href="/activities" class="text-white text-lg mx-2">Activities</a>
+                        <a href="/logout" class="text-white text-lg mx-2">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container mx-auto">
+                <h1 class="text-4xl font-bold text-center mt-10">Welcome to The Extra Mile</h1>
+                <p class="text-lg text-center mt-4">The University Application Organizer</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container mx-auto">
+                <h2 class="text-2xl font-bold text-center mt-10">Features</h2>
+                <div class="flex justify-center mt-6">
+                    <div class="w-1/3 animated-content">
+                        <a href="/activities"><h3 class="text-xl font-bold">Activities</h3></a>
+                        <p class="mt-2">Record and organize your activities and thoughts when it comes to your future placement. This allows students to effectively collate their efforts for ease when it comes time to recall.</p>
+                    </div><br>
+                    <div class="w-1/3 animated-content">
+                        <a href="/recommend-activity"><h3 class="text-xl font-bold">AI Suggestions</h3></a>
+                        <p class="mt-2">Get personalized activity recommendations based on your interests and goals. This will analyze your profile and use Artificial Intelligence to suggest new activities to strengthen your profile and push you out ofyour confort zone.</p>
+                    </div><br>
+                    <div class="w-1/3 animated-content">
+                        <a href="/recommend-schools"><h3 class="text-xl font-bold">AI Schools</h3></a>
+                        <p class="mt-2">Discover universities that align with your preferences and academic profile. This allows students to understand which schools it is most economical to apply to and provide some careers and majors options. </p>
+                    </div><br>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-200 p-4">
+        <div class="container mx-auto">
+            <p class="text-center">© 2022 The Extra Mile. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

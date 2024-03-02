@@ -2,15 +2,23 @@ from flask import Flask, render_template, request, session, redirect, flash
 import sqlite3
 import bcrypt
 import openai
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 app.secret_key = 'secret'
 conn = sqlite3.connect('database.db', check_same_thread=False)
 c = conn.cursor()
-openai.api_key = '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'
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get API key from environment variable
+openai.api_key = os.getenv('API_KEY')
 
 @app.route('/')
 def index():
+    session['location'] = 'Generic'
     return render_template('index.html')
 
 @app.route('/activities', methods=['GET', 'POST'])
@@ -95,18 +103,48 @@ def delete_activity(id):
 
 @app.route('/recommend-activity')
 def recommend_activity():
-    username = session['UNAME']
+    try:
+        username = session['UNAME']
+    except:
+        return redirect('/login')
     lis = [i[0] for i in c.execute(f'SELECT description FROM {username}').fetchall()]
     if not lis:
         r = 'As of now, you do not have any activities in your list. I suggest you start with something you find interesting to begin your extracurricular journey.'
     else:
         r = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{'role' : 'system', 'content' : "You are a college counselor reviewing extracurricullars and suggesting others based on what would strengthen this user's profile. Reply in conscise words."}, {'role' : 'user', 'content' : '\n'.join(lis)}],
-            max_tokens=150,
+            messages=[{'role' : 'system', 'content' : "You are a college counselor reviewing extracurriculars and suggesting others based on what would strengthen this user's profile. Reply in concise words. Expand on your points by including some pointers on what students can actually do (5 points). Expand as much as possible."}, {'role' : 'user', 'content' : '\n'.join(lis)}],
             temperature = 0.5
         )
-    return render_template('suggestions.html', r = r['choices'][0]['message']['content'])
+    r = r['choices'][0]['message']['content']
+    return render_template('suggestions.html', r = r)
+
+@app.route('/recommend-schools', methods=['POST', 'GET'])
+def recommend_schools():
+    try:
+        username = session['UNAME']
+    except:
+        return redirect('/login')
+    if request.method == 'POST':
+        gpa = request.form['gpa']
+        location = request.form['location']
+        session['location'] = location
+        c.execute(f"UPDATE users SET gpa = ? WHERE name = ?", (gpa, username))
+        conn.commit()
+        
+        return redirect('/recommend-schools')
+    lis = [i[0] for i in c.execute(f'SELECT description FROM {username}').fetchall()]
+    if not lis:
+        r = 'As of now, you do not have any activities in your list. I suggest you start with something you find interesting to begin your extracurricular journey.'
+    else:
+        gpa = c.execute(f"SELECT gpa FROM users WHERE name = '{username}'").fetchone()[0]
+        r = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{'role' : 'system', 'content' : "Based on GPA, Extracurriculars, and area determine safeties, match, and reach schools. Also recommend majors and carrer options with salary."}, {'role' : 'user', 'content' : '\n'.join(lis) + '\nGPA: ' + gpa + '\nArea: ' + session['location'] + '\n'}],
+            temperature = 0.5
+        )
+    r = r['choices'][0]['message']['content']
+    return render_template('sug2.html', r = r)
 
 if __name__ == '__main__':
     app.run(debug=True)
