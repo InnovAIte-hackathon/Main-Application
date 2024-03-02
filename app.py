@@ -20,7 +20,6 @@ def add_activity():
         name = request.form['name']
         description = request.form['description']
         
-        # Save the activity to the user's database
         username = session['UNAME']
         c.execute(f"INSERT INTO {username} (category, name, description) VALUES (?, ?, ?)", (category, name, description))
         conn.commit()
@@ -96,8 +95,9 @@ def recommend_activity():
     else:
         r = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{'role' : 'system', 'content' : "You are a college counselor reviewing extracurricullars and strengthening users' profile. Reply in conscise words."}, {'role' : 'user', 'content' : '\n'.join(lis)}],
-            max_tokens=150
+            messages=[{'role' : 'system', 'content' : "You are a college counselor reviewing extracurricullars and suggesting others based on what would strengthen this user's profile. Reply in conscise words."}, {'role' : 'user', 'content' : '\n'.join(lis)}],
+            max_tokens=150,
+            temperature = 0.5
         )
     return render_template('suggestions.html', r = r['choices'][0]['message']['content'])
 
