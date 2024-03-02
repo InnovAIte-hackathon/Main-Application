@@ -5,6 +5,8 @@ import openai
 import os
 from dotenv import load_dotenv
 
+# Must include an API Key in a .env file in the same directory as app.py
+
 app = Flask(__name__)
 app.secret_key = 'secret'
 conn = sqlite3.connect('database.db', check_same_thread=False)
