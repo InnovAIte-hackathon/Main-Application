@@ -5,15 +5,27 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between">
+                <a href="/" class="text-white text-lg font-bold">Home</a>
+                <div>
+                    <a href="/suggestions" class="text-white text-lg mx-2">AI Suggestions</a>
+                    <a href="/activities" class="text-white text-lg mx-2">Activities</a>
+                    <a href="/logout" class="text-white text-lg mx-2">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
     <h1 class="text-4xl font-bold text-center mt-8">Activities List</h1>
     
     <div class="flex justify-center mt-4">
         <label for="activity-filter" class="mr-2">Filter by Activity:</label>
         <select id="activity-filter" class="px-2 py-1 border border-gray-300 rounded-md">
             <option value="all">All</option>
-            <option value="Sports">Sports</option>
-            <option value="Academics">Academics</option>
-            <option value="Philanthropic">Philanthropic</option>
+            {% for i in cats %}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
         </select>
     </div>
     

@@ -32,8 +32,15 @@ def add_activity():
         flash('You need to be logged in to access this page')
         return redirect('/login')
     lis = c.execute(f'SELECT * FROM {username}').fetchall()
+
+    cats = sorted(list(set([i[0] for i in lis])))
     
-    return render_template('activities.html', lis = lis)
+    return render_template('activities.html', lis = lis, cats = cats)
+
+@app.route('/logout')
+def logout():
+    session.pop('UNAME')
+    return redirect('/login')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
