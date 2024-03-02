@@ -149,4 +149,4 @@ def recommend_schools():
     return render_template('sug2.html', r = r)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=80)
