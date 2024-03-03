@@ -1,47 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Extra Mile - University Application Organizer</title>
-    <!-- BEGIN: Tailwind CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='favicon.png') }}" rel="icon">
-    <!-- END: Tailwind CSS CDN -->
-    <style>
-        /* Custom styles for the longer page */
-        .animated-content {
-            animation: slide-up 1s ease-in-out;
-        }
-
-        @keyframes slide-up {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>The Extra Mile</title>
+        
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
+        
+        <style>
+            /* Add your inline styles here */
+            .masthead {
+                background-color: #333;
+                padding: 100px 0;
+                text-align: center;
             }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .masthead h1 {
+                color: #fff;
+                font-size: 48px;
+                font-weight: bold;
+                margin-bottom: 20px;
             }
-        }
+            
+            .features-icons {
+                background-color: #f8f9fa;
+                padding: 100px 0;
+            }
+            
+            .features-icons h3 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            
+            .features-icons p {
+                font-size: 18px;
+                margin-bottom: 0;
+            }
+            
+            .call-to-action {
+                background-color: #333;
+                padding: 100px 0;
+                text-align: center;
+            }
+            
+            .call-to-action h2 {
+                color: #fff;
+                font-size: 36px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+            
+            .footer {
+                background-color: #f8f9fa;
+                padding: 50px 0;
+                text-align: center;
+            }
+            
+            .footer ul {
+                list-style: none;
+                padding: 0;
+                margin-bottom: 20px;
+            }
+            
+            .footer ul li {
+                display: inline-block;
+                margin-right: 10px;
+            }
+            
+            .footer ul li a {
+                color: #333;
+                text-decoration: none;
+            }
+            
+            .footer p {
+                font-size: 14px;
+                color: #333;
+                margin-bottom: 0;
+            }
+            
+            .footer i {
+                font-size: 24px;
+                color: #333;
+                margin-right: 10px;
+            }
+            @keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
 
-        /* Sticky footer */
-        html, body {
-            height: 100%;
-        }
+            @keyframes slideIn {
+                0% {
+                    transform: translateY(100%);
+                }
+                100% {
+                    transform: translateY(0);
+                }
+            }
 
-        body {
-            display: flex;
-            flex-direction: column;
-        }
+            .masthead {
+                animation: fadeIn 1s ease-in-out;
+            }
 
-        main {
-            flex: 1;
-        }
-    </style>
-</head>
-<body>
-    <header>
+            .features-icons-item {
+                animation: slideIn 1s ease-in-out;
+            }
+
+            .call-to-action {
+                animation: fadeIn 1s ease-in-out;
+            }
+
+            .footer {
+                animation: slideIn 1s ease-in-out;
+            }
+        </style>
+    </head>
+    <body>
+        
         <nav class="bg-blue-500 p-4">
             <div class="container mx-auto">
                 <div class="flex justify-between">
@@ -55,42 +140,90 @@
                 </div>
             </div>
         </nav>
-    </header>
-
-    <main>
-        <section class="hero">
-            <div class="container mx-auto">
-                <h1 class="text-4xl font-bold text-center mt-10">Welcome to The Extra Mile</h1>
-                <p class="text-lg text-center mt-4">The University Application Organizer<br>It's no secret that preparation is hard. Let's see what you can do:</p>
+       
+        <header class="masthead">
+            <div class="container position-relative">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6">
+                        <div class="text-center text-white">
+                            <h1 class="mb-5">Welcome to the Extra Mile, the place your university journey begins!</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-
-        <section class="features">
-            <div class="container mx-auto">
-                <h2 class="text-2xl font-bold text-center mt-10">Features</h2>
-                <div class="flex justify-center mt-6">
-                    <div class="w-1/3 animated-content">
-                        <a href="/activities"><h3 class="text-xl font-bold">Activities</h3></a>
-                        <p class="mt-2">Record and organize your activities and thoughts when it comes to your future placement. This allows students to effectively collate their efforts for ease when it comes time to recall.</p>
-                    </div><br>
-                    <div class="w-1/3 animated-content">
-                        <a href="/recommend-activity"><h3 class="text-xl font-bold">AI Suggestions</h3></a>
-                        <p class="mt-2">Get personalized activity recommendations based on your interests and goals. This will analyze your profile and use Artificial Intelligence to suggest new activities to strengthen your profile and push you out ofyour confort zone.</p>
-                    </div><br>
-                    <div class="w-1/3 animated-content">
-                        <a href="/recommend-schools"><h3 class="text-xl font-bold">AI Schools</h3></a>
-                        <p class="mt-2">Discover universities that align with your preferences and academic profile. This allows students to understand which schools it is most economical to apply to and provide some careers and majors options. </p>
-                    </div><br>
+        </header>
+        
+        <section class="features-icons bg-light text-center">
+            <div class="container text-center" style="margin-left: 80px;">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <a href="/activities"><h3>Organize your extracurriculars</h3></a>
+                            <p class="lead mb-0">Extracurriculars are an extremely important part of your application, and make you stand out. With the power of our AI tools, get recommendations of unique ECA's and activities that you could take part in, based on your interests and requirements.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <a href="/recommend-activity"><h3>Track your progress</h3></a>
+                            <p class="lead mb-0">With a state-of-the-art built logging system, track how much progress you make on different parts of your application. Monitor your quantity, quality, and variety in your extracurriculars with filters and more.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                            <a href="/recommend-schools"><h3>Gain valuable insights</h3></a>
+                            <p class="lead mb-0">Our powerfully built AI can give you a variety different ideas on schools, majors, and career options depending on your extracurriculars, grades, and location. You can get ideas of where you sit at the top universities and the median pay of the jobs that those paths can bring.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-
-    </main>
-
-    <footer class="bg-gray-200 p-4">
-        <div class="container mx-auto">
-            <p class="text-center">© 2024 The Extra Mile. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
+        
+        <section class="call-to-action text-white text-center" id="signup">
+            <div class="container position-relative">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6">
+                        <h2 class="mb-4">Ready to get started? Sign up now!</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
+                        <ul class="list-inline mb-2">
+                            <li class="list-inline-item"><a href="#!">About</a></li>
+                            <li class="list-inline-item">⋅</li>
+                            <li class="list-inline-item"><a href="#!">Contact</a></li>
+                            <li class="list-inline-item">⋅</li>
+                            <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
+                            <li class="list-inline-item">⋅</li>
+                            <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
+                        </ul>
+                        <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2023. All Rights Reserved.</p>
+                    </div>
+                    <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item me-4">
+                                <a href="#!"><i class="bi-facebook fs-3"></i></a>
+                            </li>
+                            <li class="list-inline-item me-4">
+                                <a href="#!"><i class="bi-twitter fs-3"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!"><i class="bi-instagram fs-3"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+       
+        <script src="js/scripts.js"></script>
+        
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
 </html>
