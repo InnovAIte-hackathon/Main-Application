@@ -25,6 +25,11 @@ def index():
 
 @app.route('/activities', methods=['GET', 'POST'])
 def add_activity():
+    try:
+        username = session['UNAME']
+    except:
+        flash('You need to be logged in to access this page')
+        return redirect('/login')
     if request.method == 'POST':
         category = request.form['category']
         name = request.form['name']
@@ -36,11 +41,6 @@ def add_activity():
         
         return redirect('/activities')
     
-    try:
-        username = session['UNAME']
-    except:
-        flash('You need to be logged in to access this page')
-        return redirect('/login')
     lis = c.execute(f'SELECT * FROM {username}').fetchall()
 
     cats = sorted(list(set([i[0] for i in lis])))
@@ -49,7 +49,10 @@ def add_activity():
 
 @app.route('/logout')
 def logout():
-    session.pop('UNAME')
+    session.pop('UNAME', None)
+    session.pop('suggestions', None)
+    session.pop('schools', None)
+    session.pop('location', None)
     return redirect('/login')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -75,6 +78,7 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
+        gpa = request.form['gpa']
 
         if password != request.form['confirm_password']:
             flash('Passwords do not match')
@@ -89,7 +93,7 @@ def signup():
         
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         c.execute(f"CREATE TABLE IF NOT EXISTS {username} (category TEXT, name TEXT, description TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT)")
-        c.execute(f"INSERT INTO users VALUES (?, ?, ?)", (username, hashed_password, email))
+        c.execute(f"INSERT INTO users VALUES (?, ?, ?, ?)", (username, hashed_password, email, gpa))
         conn.commit()
 
         return redirect('/')
@@ -98,16 +102,21 @@ def signup():
 
 @app.route('/delete-activity/<int:id>')
 def delete_activity(id):
-    username = session['UNAME']
+    try:
+        username = session['UNAME']
+    except:
+        flash('You need to be logged in to access this page')
+        return redirect('/login')
     c.execute(f'DELETE FROM {username} WHERE id = {id}')
     conn.commit()
     return redirect('/activities')
 
-@app.route('/recommend-activity')
-def recommend_activity():
+@app.route('/recommend-activity/recommend')
+def recommend_activityr():
     try:
         username = session['UNAME']
     except:
+        flash('You need to be logged in to access this page')
         return redirect('/login')
     lis = [i[0] for i in c.execute(f'SELECT description FROM {username}').fetchall()]
     if not lis:
@@ -117,15 +126,26 @@ def recommend_activity():
             model="gpt-3.5-turbo",
             messages=[{'role' : 'system', 'content' : "You are a college counselor reviewing extracurriculars and suggesting others based on what would strengthen this user's profile. Reply in concise words. Expand on your points by including some pointers on what students can actually do (5 points). Expand as much as possible."}, {'role' : 'user', 'content' : '\n'.join(lis)}],
             temperature = 0.5
-        )
-    r = r['choices'][0]['message']['content']
-    return render_template('suggestions.html', r = r)
+        )['choices'][0]['message']['content']
+    session['suggestions'] = r
+    return redirect('/recommend-activity')
 
-@app.route('/recommend-schools', methods=['POST', 'GET'])
-def recommend_schools():
+@app.route('/recommend-activity')
+def recommend_activity():
     try:
         username = session['UNAME']
     except:
+        flash('You need to be logged in to access this page')
+        return redirect('/login')
+    r = session.get('suggestions', 'Generate suggestions')
+    return render_template('suggestions.html', r = r)
+
+@app.route('/recommend-schools/recommend', methods=['POST', 'GET'])
+def recommend_schoolsr():
+    try:
+        username = session['UNAME']
+    except:
+        flash('You need to be logged in to access this page')
         return redirect('/login')
     if request.method == 'POST':
         gpa = request.form['gpa']
@@ -142,11 +162,30 @@ def recommend_schools():
         gpa = c.execute(f"SELECT gpa FROM users WHERE name = '{username}'").fetchone()[0]
         r = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{'role' : 'system', 'content' : "Based on GPA, Extracurriculars, and area determine safeties, match, and reach schools. Also recommend majors and carrer options with salary."}, {'role' : 'user', 'content' : '\n'.join(lis) + '\nGPA: ' + gpa + '\nArea: ' + session['location'] + '\n'}],
+            messages=[{'role' : 'system', 'content' : "Based on GPA, Extracurriculars, and area determine safeties, match, and reach schools. Also recommend majors and career options with salary."}, {'role' : 'user', 'content' : '\n'.join(lis) + '\nGPA: ' + gpa + '\nArea: ' + session['location'] + '\n'}],
             temperature = 0.5
-        )
-    r = r['choices'][0]['message']['content']
-    return render_template('sug2.html', r = r)
+        )['choices'][0]['message']['content']
+    session['schools'] = r
+    return redirect('/recommend-schools')
+
+@app.route('/recommend-schools', methods=['POST', 'GET'])
+def recommend_schools():
+    try:
+        username = session['UNAME']
+    except:
+        return redirect('/login')
+    if request.method == 'POST':
+        gpa = request.form['gpa']
+        location = request.form['location']
+        session['location'] = location
+        c.execute(f"UPDATE users SET gpa = ? WHERE name = ?", (gpa, username))
+        conn.commit()
+        
+        return redirect('/recommend-schools/recommend')
+    r = session.get('schools', 'Generate recommendations')
+    gpa = c.execute(f"SELECT gpa FROM users WHERE name = '{username}'").fetchone()[0]
+    vals = (gpa, session.get('location', ''))
+    return render_template('sug2.html', r = r, vals=vals)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)
