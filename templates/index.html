@@ -10,134 +10,17 @@
         <link href="{{ url_for('static', filename='favicon.png') }}" rel="icon">
         
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
         
-        <style>
-            /* Add your inline styles here */
-            .masthead {
-                background-color: #333;
-                padding: 100px 0;
-                text-align: center;
-            }
-            
-            .masthead h1 {
-                color: #fff;
-                font-size: 48px;
-                font-weight: bold;
-                margin-bottom: 20px;
-            }
-            
-            .features-icons {
-                background-color: #f8f9fa;
-                padding: 100px 0;
-            }
-            
-            .features-icons h3 {
-                font-size: 24px;
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
-            
-            .features-icons p {
-                font-size: 18px;
-                margin-bottom: 0;
-            }
-            
-            .call-to-action {
-                background-color: #333;
-                padding: 100px 0;
-                text-align: center;
-            }
-            
-            .call-to-action h2 {
-                color: #fff;
-                font-size: 36px;
-                font-weight: bold;
-                margin-bottom: 20px;
-            }
-            
-            .footer {
-                background-color: #f8f9fa;
-                padding: 50px 0;
-                text-align: center;
-            }
-            
-            .footer ul {
-                list-style: none;
-                padding: 0;
-                margin-bottom: 20px;
-            }
-            
-            .footer ul li {
-                display: inline-block;
-                margin-right: 10px;
-            }
-            
-            .footer ul li a {
-                color: #333;
-                text-decoration: none;
-            }
-            
-            .footer p {
-                font-size: 14px;
-                color: #333;
-                margin-bottom: 0;
-            }
-            
-            .footer i {
-                font-size: 24px;
-                color: #333;
-                margin-right: 10px;
-            }
-            @keyframes fadeIn {
-                0% {
-                    opacity: 0;
-                }
-                100% {
-                    opacity: 1;
-                }
-            }
-
-            @keyframes slideIn {
-                0% {
-                    transform: translateY(100%);
-                }
-                100% {
-                    transform: translateY(0);
-                }
-            }
-
-            .masthead {
-                animation: fadeIn 1s ease-in-out;
-            }
-
-            .features-icons-item {
-                animation: slideIn 1s ease-in-out;
-            }
-
-            .call-to-action {
-                animation: fadeIn 1s ease-in-out;
-            }
-
-            .footer {
-                animation: slideIn 1s ease-in-out;
-            }
-        </style>
+        <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet" />
     </head>
     <body>
         
-        <nav class="bg-blue-500 p-4">
-            <div class="container mx-auto">
-                <div class="flex justify-between">
-                    <a href="/" class="text-white text-lg font-bold">Home</a>
-                    <div>
-                        <a href="/recommend-activity" class="text-white text-lg mx-2">AI Suggestions</a>
-                        <a href="/recommend-schools" class="text-white text-lg mx-2">AI Schools</a>
-                        <a href="/activities" class="text-white text-lg mx-2">Activities</a>
-                        {% if session.get('UNAME', None) %}<a href="/logout" class="text-white text-lg mx-2">Logout</a>{% else %}<a href="/login" class="text-white text-lg mx-2">Login</a><a href="/signup" class="text-white text-lg mx-2">Signup</a>{% endif %}
-                    </div>
-                </div>
+        <nav class="navbar navbar-light bg-light static-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">The Extra Mile</a>
+                <a class="btn btn-primary" href="/signup">Signup</a>
             </div>
         </nav>
        
@@ -146,7 +29,10 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-6">
                         <div class="text-center text-white">
-                            <h1 class="mb-5" style="margin-left: 150px;">Welcome to the Extra Mile, the place your university journey begins!</h1>
+                            
+                            <h1 class="mb-5">Welcome to the Extra Mile, the place your university journey starts.  </h1>
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -154,71 +40,48 @@
         </header>
         
         <section class="features-icons bg-light text-center">
-            <div class="container text-center" style="margin-left: 80px;">
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <a href="/activities"><h3>Organize your extracurriculars</h3></a>
-                            <p class="lead mb-0">Extracurriculars are an extremely important part of your application, and make you stand out. With the power of our AI tools, get recommendations of unique ECA's and activities that you could take part in, based on your interests and requirements.</p>
+                            <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary"></i></div>
+                            <a href="/recommend-activity"><h3 style="color: black; text-decoration: none;">Organize your extracurriculars</h3></a>
+                            <p class="lead mb-0">Extracurriculars are an extremely important part of your application, and make you stand out. With the power of our AI tools, get recommendations of unique ECA's and activities that you could take part in, based on your interests and requirements. </p>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <a href="/recommend-activity"><h3>Track your progress</h3></a>
-                            <p class="lead mb-0">With a state-of-the-art built logging system, track how much progress you make on different parts of your application. Monitor your quantity, quality, and variety in your extracurriculars with filters and more.</p>
+                            <div class="features-icons-icon d-flex"><i class="bi-layers m-auto text-primary"></i></div>
+                            <a href="/activities"><h3 style="color: black;">Track your progress</h3></a>
+                            <p class="lead mb-0">With a professionally built logging system, track how much progress you make on different parts of your application. Use our Ai systems to get recommendations on different ways to track progress, and get feedback on if the pace of your feedback is too slow, just right, or too fast. </p>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                            <a href="/recommend-schools"><h3>Gain valuable insights</h3></a>
-                            <p class="lead mb-0">Our powerfully built AI can give you a variety different ideas on schools, majors, and career options depending on your extracurriculars, grades, and location. You can get ideas of where you sit at the top universities and the median pay of the jobs that those paths can bring.</p>
+                            <div class="features-icons-icon d-flex"><i class="bi-eye m-auto text-primary"></i></div>
+                            <a href="/recommend-schools"><h3 style="color: black; text-decoration: none;">Gain valuable insights</h3></a>
+                            <p class="lead mb-0">Our powerfully built AI can give you many different ideas for your university applications, such as example proejcts, a student portfolio website, and text generation on anything related. You can also use to help aid with understanding the university system in the U.S. as well, as it can be very confusing.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         
+        
+        
+        
+ 
         <section class="call-to-action text-white text-center" id="signup">
             <div class="container position-relative">
                 <div class="row justify-content-center">
                     <div class="col-xl-6">
-                        <h2 class="mb-4" style="margin-left: 80px;">Ready to get started? Sign up now!</h2>
+                        <h2 class="mb-4">Ready to get started? Sign up now!</h2>
+                        
+                        
                     </div>
                 </div>
             </div>
         </section>
-        
-        <footer class="footer bg-light">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
-                        <ul class="list-inline mb-2">
-                            <li class="list-inline-item"><a href="#!">About</a></li>
-                            <li class="list-inline-item">⋅</li>
-                            <li class="list-inline-item"><a href="#!">Contact</a></li>
-                            <li class="list-inline-item">⋅</li>
-                            <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
-                            <li class="list-inline-item">⋅</li>
-                            <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
-                        </ul>
-                        <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2023. All Rights Reserved.</p>
-                    </div>
-                    <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item me-4">
-                                <a href="#!"><i class="bi-facebook fs-3"></i></a>
-                            </li>
-                            <li class="list-inline-item me-4">
-                                <a href="#!"><i class="bi-twitter fs-3"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><i class="bi-instagram fs-3"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
        
