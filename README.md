@@ -1,4 +1,4 @@
-A simple application to help students manage their extracurriculars and future aims.
+A simple application to help students manage their extracurriculars and future aims. Won 9th overall in the UAE InnovAIte Hackathon.
 
 Running instructions:
 Clone from this repo with <code>git clone https://github.com/InnovAIte-hackathon/Main-Application.git</code><br>
